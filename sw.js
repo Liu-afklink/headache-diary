@@ -1,5 +1,5 @@
 /* 頭痛日記 — offline cache. Bump VERSION whenever index.html changes so phones pick up the update. */
-const VERSION = "hd-2026-10-06-1";
+const VERSION = "hd-2026-10-07-2";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icons/apple-touch-icon.png", "./icons/icon-192.png", "./icons/icon-512.png"];
 const CDN = [
   "https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js",

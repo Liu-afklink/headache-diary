@@ -160,7 +160,20 @@ a.ibtn{text-decoration:none}
 
 .rows{margin-top:20px;display:flex;flex-direction:column}
 .srow{display:grid;grid-template-columns:56px minmax(0,1fr) auto 18px;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid var(--line);text-align:left;width:100%;transition:background .25s}
-.srow:first-child{border-top:1px solid var(--line)}
+.rows .sitem:first-child .srow{border-top:1px solid var(--line)}
+.srow.hasmed{border-bottom:0;padding-bottom:8px}
+.medbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:0 4px 14px 74px;border-bottom:1px solid var(--line)}
+.medbar .mlabel{font-size:.7rem;letter-spacing:.14em;color:var(--ink-3);margin-right:2px}
+.mchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-2);border-radius:999px;padding:7px 12px;font-size:.84rem;color:var(--ink);transition:border-color .2s,background .2s,transform .2s var(--spring);max-width:100%;min-width:0}
+.mchip:hover{border-color:var(--accent);background:var(--accent-soft)}
+.mchip:active,.madd:active{transform:scale(.95)}
+.mchip .tm{font-family:var(--f-num);font-size:1rem;color:var(--ink-2)}
+.mchip .ed{color:var(--accent);font-size:.78rem}
+.msel{flex:1 1 180px;min-width:0;max-width:100%;background:var(--surface);border:1px solid var(--line-2);border-radius:999px;padding:8px 14px;font-size:.84rem;color:var(--ink)}
+.madd{display:inline-flex;align-items:center;gap:5px;border:1px dashed var(--accent);color:var(--accent);border-radius:999px;padding:7px 13px;font-size:.84rem;white-space:nowrap;transition:background .2s,transform .2s var(--spring)}
+.madd:hover{background:var(--accent-soft)}
+.madd svg{width:13px;height:13px}
+@media (max-width:420px){.medbar{padding-left:4px}}
 .srow:hover{background:linear-gradient(90deg,transparent,var(--surface) 20%,var(--surface) 80%,transparent)}
 .srow:hover .chev{transform:translateX(3px);color:var(--ink)}
 .srow .t{font-family:var(--f-num);font-size:1.35rem;color:var(--ink-2);line-height:1}
@@ -499,6 +512,10 @@ textarea.input{min-height:140px;resize:vertical;border:1px solid var(--line-2);b
 .uses li{display:flex;gap:8px}
 .uses li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:.6em;flex:none}
 .settings-top{max-width:640px}
+.help.today{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700;animation:dueIn .4s var(--spring) both}
+.help.today svg{color:var(--accent-ink)}
+.help.today:hover{background:var(--accent);filter:brightness(1.08)}
+@media (max-width:440px){.hdr.has-today .help:not(.today) .lbl{display:none}.hdr.has-today .help:not(.today){padding:0;width:38px;justify-content:center}.hdr.has-today .brand-name{font-size:1.05rem}}
 .ghostlabel{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:9px 16px;font-size:.86rem;border:1px solid var(--line-2);color:var(--ink);cursor:pointer;transition:border-color .2s,background .2s}
 .ghostlabel:hover{border-color:var(--accent);background:var(--accent-soft)}
 .intro.install .thumb{background:var(--accent-soft)}
@@ -556,7 +573,8 @@ textarea.input{min-height:140px;resize:vertical;border:1px solid var(--line-2);b
         <div><div class="brand-name">頭痛日記</div><div class="sync" id="syncStatus"><i></i><span>連線中</span></div></div>
       </div>
       <div class="hbtns">
-        <a class="help" href="https://www.youtube.com/watch?v=H4ezL5At_S0" target="_blank" rel="noopener" aria-label="紀錄說明影片"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M10 8.8v6.4l5.2-3.2z" fill="currentColor" stroke-linejoin="round"/></svg>紀錄說明</a>
+        <button class="help today" id="todayBtn" hidden aria-label="回到今天"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v14H4z"/><path d="M4 10h16M8 3v4M16 3v4"/><circle cx="12" cy="15" r="2" fill="currentColor"/></svg><span class="lbl">回到今天</span></button>
+        <a class="help" href="https://www.youtube.com/watch?v=H4ezL5At_S0" target="_blank" rel="noopener" aria-label="紀錄說明影片"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M10 8.8v6.4l5.2-3.2z" fill="currentColor" stroke-linejoin="round"/></svg><span class="lbl">紀錄說明</span></a>
         <button class="ibtn" id="dimBtn" aria-pressed="false" aria-label="畏光模式" title="畏光模式：降低亮度與對比"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg></button>
       </div>
     </header>
@@ -599,7 +617,7 @@ textarea.input{min-height:140px;resize:vertical;border:1px solid var(--line-2);b
       <div id="reportBanner"></div>
       <div id="monthNote"></div>
       <div class="gridwrap"><table class="grid" id="monthGrid"></table></div>
-      <div class="legend"><span><i style="background:var(--s1)"></i>1 小痛</span><span><i style="background:var(--s2)"></i>2 中痛</span><span><i style="background:var(--s3)"></i>3 大痛</span><span><i style="box-shadow:inset 0 0 0 1px var(--line-2)"></i>0 不痛</span><span>點日期可查看或補登</span></div>
+      <div class="legend"><span><i style="background:var(--s1)"></i>1 小痛</span><span><i style="background:var(--s2)"></i>2 中痛</span><span><i style="background:var(--s3)"></i>3 大痛</span><span>– 不痛或忽略</span><span>點日期可查看或補登</span></div>
       <button class="export" id="exportBtn"><span><b>匯出與分享</b><small>Excel、CSV、AirDrop，或建立給醫師看的分享連結</small></span><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></span></button>
     </section>
 
@@ -869,6 +887,7 @@ function renderIntro(){
 }
 function lvlChip(v){return '<span class="lvl l'+v+'"><span class="d">'+v+'</span>'+LEVELS[v].t+'</span>'}
 function renderDay(){
+  setTimeout(updateTodayBtn,0);
   const today=ymd(new Date()),d=state.curDate,day=getDay(d),dd=parseYmd(d);
   const diff=Math.round((parseYmd(today)-dd)/864e5);
   document.getElementById("dayEyebrow").textContent=diff===0?"TODAY · 今天":diff===1?"YESTERDAY · 昨天":diff+" 天前";
@@ -887,9 +906,18 @@ function renderDay(){
     const r=day.slots[s.k];let right,meta;
     if(r){right=lvlChip(r.level);const parts=[];if(r.sym&&r.sym.length)parts.push(r.sym.length+" 項症狀");if(r.meds&&r.meds.length)parts.push("服 "+r.meds.map(m=>esc(m.name)).join("、"));if(r.note)parts.push("有備註");meta=parts.join(" · ")||"無其他狀況";}
     else{const sk=day.skip&&day.skip[s.k];right=sk?'<span class="lvl skip">已忽略</span>':dueKeys.has(s.k)?'<span class="lvl none dueing">待記錄</span>':'<span class="lvl none">未記錄</span>';meta=sk?"點一下仍可補登":s.nextDay?"隔天早上回想昨晚":"記錄"+s.ask;}
-    return '<button class="srow" data-slot="'+s.k+'"><span class="t num">'+esc(state.settings.times[s.k])+'<small>'+(s.nextDay?"隔天":"提醒")+'</small></span><span class="nm">'+s.name+'<span class="meta">'+meta+'</span></span>'+right+'<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>';
+    const meds=r&&r.meds?r.meds:[];
+    const plus='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>';
+    let bar="";
+    if(meds.length===1){const m=meds[0];bar='<div class="medbar" data-slot="'+s.k+'"><span class="mlabel">用藥</span><button class="mchip" data-mi="0">'+esc(m.name||"止痛藥")+(m.time?' <span class="tm num">'+esc(m.time)+'</span>':'')+' <span class="ed">編輯</span></button><button class="madd">'+plus+'新增服藥</button></div>';}
+    else if(meds.length>=2){bar='<div class="medbar" data-slot="'+s.k+'"><span class="mlabel">用藥 ×'+meds.length+'</span><select class="msel" aria-label="選擇要編輯的用藥紀錄"><option value="">選擇要編輯哪一次</option>'+meds.map((m,i)=>'<option value="'+i+'">第 '+(i+1)+' 次｜'+esc(m.name||"止痛藥")+(m.time?"　"+esc(m.time):"")+'</option>').join("")+'</select><button class="madd">'+plus+'新增服藥</button></div>';}
+    return '<div class="sitem"><button class="srow'+(bar?" hasmed":"")+'" data-slot="'+s.k+'"><span class="t num">'+esc(state.settings.times[s.k])+'<small>'+(s.nextDay?"隔天":"提醒")+'</small></span><span class="nm">'+s.name+'<span class="meta">'+meta+'</span></span>'+right+'<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18l6-6-6-6"/></svg></button>'+bar+'</div>';
   }).join("");
   document.querySelectorAll("#slotRows .srow").forEach(el=>el.onclick=()=>{buzz();openWizard(d,el.dataset.slot)});
+  document.querySelectorAll("#slotRows .medbar").forEach(bar=>{const k=bar.dataset.slot;
+    const ch=bar.querySelector(".mchip");if(ch)ch.onclick=()=>{buzz();openWizard(d,k,false,{med:0});};
+    const sel=bar.querySelector(".msel");if(sel)sel.onchange=()=>{if(sel.value==="")return;buzz();const i=Number(sel.value);sel.value="";openWizard(d,k,false,{med:i});};
+    bar.querySelector(".madd").onclick=()=>{buzz();openWizard(d,k,false,{med:"new"});};});
   const dl=day.daily,p=document.getElementById("dailyPanel");
   const meds=[];SLOTS.forEach(s=>{const r=day.slots[s.k];if(r&&r.meds)r.meds.forEach(m=>meds.push(m));});
   const notes=SLOTS.map(s=>day.slots[s.k]&&day.slots[s.k].note?('<b>'+s.name+'</b>'+esc(day.slots[s.k].note)):"").filter(Boolean);
@@ -1019,6 +1047,7 @@ function renderBacklog(){
 }
 
 function renderMonth(){
+  setTimeout(updateTodayBtn,0);
   const {y,m}=state.month,n=new Date(y,m,0).getDate(),today=ymd(new Date());
   document.getElementById("mNum").textContent=m;document.getElementById("mYear").textContent=y;
   const dates=[];for(let i=1;i<=n;i++)dates.push(y+"-"+pad(m)+"-"+pad(i));
@@ -1050,7 +1079,7 @@ function renderMonth(){
   const hdr='<thead><tr><th class="rh">日期</th>'+cols.map(c=>{const wd=parseYmd(c.dt).getDay();return '<th data-d="'+c.dt+'" class="'+(c.dt===today?"today":(wd===0||wd===6)?"we":"")+'">'+Number(c.dt.slice(8))+'</th>'}).join("")+'</tr></thead>';
   const sec=t=>'<tr class="sec"><th class="rh">'+t+'</th>'+cols.map(()=>'<td></td>').join("")+'</tr>';
   let rows=sec("頭痛程度");
-  SLOTS.forEach((sl,i)=>{rows+='<tr><th class="rh">'+sl.name+'</th>'+cols.map(c=>{const v=c.lv[i];const skp=c.day.skip&&c.day.skip[sl.k];return '<td class="c" data-d="'+c.dt+'">'+(v==null?(skp?'<span class="skipc" title="不記錄">–</span>':""):'<span class="lv l'+v+'">'+v+'</span>')+'</td>'}).join("")+'</tr>';});
+  SLOTS.forEach((sl,i)=>{rows+='<tr><th class="rh">'+sl.name+'</th>'+cols.map(c=>{const v=c.lv[i];const skp=c.day.skip&&c.day.skip[sl.k];return '<td class="c" data-d="'+c.dt+'">'+(v==null?(skp?'<span class="skipc" title="不記錄">–</span>':""):(v===0?'<span class="skipc" title="不痛">–</span>':'<span class="lv l'+v+'">'+v+'</span>'))+'</td>'}).join("")+'</tr>';});
   rows+=sec("伴隨症狀");
   SYMS.forEach(sy=>{rows+='<tr><th class="rh" title="'+sy.t+'">'+sy.s+'</th>'+cols.map(c=>'<td class="c" data-d="'+c.dt+'">'+(c.sym[sy.k]?'<span class="dot"></span>':"")+'</td>').join("")+'</tr>';});
   rows+=sec("每日");
@@ -1105,12 +1134,18 @@ function renderCal(){
 }
 function renderAll(){if(state.view==="day")renderDay();if(state.view==="month")renderMonth();}
 
+function updateTodayBtn(){
+  const b=document.getElementById("todayBtn");if(!b)return;
+  const n=new Date(),t=ymd(n),off=state.readonly?false:(state.view==="day"&&state.curDate!==t)||(state.view==="month"&&(state.month.y!==n.getFullYear()||state.month.m!==n.getMonth()+1));
+  b.hidden=!off;document.querySelector(".hdr").classList.toggle("has-today",off);
+  b.querySelector(".lbl").textContent=state.view==="month"?"回到本月":"回到今天";
+}
 function switchTab(t){
   state.view=t;
   document.querySelectorAll(".view").forEach(v=>{const show=v.id==="view-"+t;if(show&&v.hidden){v.hidden=false;v.style.animation="none";void v.offsetHeight;v.style.animation="";}else if(!show)v.hidden=true;});
   document.querySelectorAll("[data-tab]").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t?"true":"false"));
   if(t==="month")renderMonth();if(t==="day"){state.lastDialKey="";renderDay();}if(t==="settings")renderSettings();
-  window.scrollTo({top:0});
+  updateTodayBtn();window.scrollTo({top:0});
 }
 document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{buzz();switchTab(b.dataset.tab)});
 document.getElementById("prevDay").onclick=()=>{state.curDate=addDays(state.curDate,-1);renderDay();};
@@ -1154,7 +1189,7 @@ function pendingEffects(date,slot){
   [addDays(date,-1),date].forEach(dt=>{const day=state.days[dt];if(!day)return;SLOTS.forEach(s=>{if(dt===date&&slot&&order.indexOf(s.k)>=order.indexOf(slot))return;const r=day.slots[s.k];(r&&r.meds||[]).forEach((m,i)=>{if(m.effect==null)out.push({date:dt,slot:s.k,i,name:m.name,time:m.time});});});});
   return out;
 }
-function openWizard(date,slot,dailyOnly){
+function openWizard(date,slot,dailyOnly,opts){
   const day=JSON.parse(JSON.stringify(getDay(date))),prev=slot&&day.slots[slot];
   Object.assign(W,{date,slot,day,dailyOnly:!!dailyOnly});
   W.rec=prev?JSON.parse(JSON.stringify(prev)):{level:null,sym:[],meds:[],note:"",triggers:[]};
@@ -1163,8 +1198,13 @@ function openWizard(date,slot,dailyOnly){
   W.daily=day.daily?JSON.parse(JSON.stringify(day.daily)):{hours:0,period:null,exercise:[],noExercise:false};
   W.pend=slot?pendingEffects(date,slot):[];W.pendVals=W.pend.map(()=>null);
   W.steps=dailyOnly?["daily","confirm"]:["level","sym"].concat(W.pend.length?["pend"]:[]).concat(["med"]).concat(slot===state.settings.dailySlot?["daily"]:[]).concat(["note","confirm"]);
-  W.i=0;W.jumpBack=false;W.medIdx=0;
-  document.getElementById("sheetTag").textContent=dailyOnly?"每日通用題":SLOT[slot].name+"記錄";
+  W.i=0;W.jumpBack=false;W.medIdx=0;W.direct=false;
+  if(opts&&opts.med!=null&&slot&&prev){
+    W.direct=true;W.tookMed=true;W.jumpBack=true;W.i=W.steps.indexOf("med");
+    if(opts.med==="new"){W.rec.meds.push({name:"",dose:"",time:roundNow(),effect:null});W.medIdx=W.rec.meds.length-1;}
+    else W.medIdx=Math.min(Number(opts.med)||0,Math.max(0,W.rec.meds.length-1));
+  }
+  document.getElementById("sheetTag").textContent=dailyOnly?"每日通用題":SLOT[slot].name+(W.direct?(opts.med==="new"?"・新增服藥":"・編輯用藥"):"記錄");
   document.getElementById("sheetSub").textContent=niceDate(date)+(slot&&SLOT[slot].nextDay?" 夜間":"");
   const sh=document.getElementById("sheet");sh.hidden=false;sh.style.animation="none";void sh.offsetHeight;sh.style.animation="";
   document.body.style.overflow="hidden";
@@ -1174,7 +1214,9 @@ function closeWizard(){stopRec();try{speechSynthesis.cancel()}catch(e){}document
 document.getElementById("sheetClose").onclick=closeWizard;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!document.getElementById("sheet").hidden)closeWizard();});
 document.getElementById("sheetSpeak").onclick=()=>speak(W.qText||"",true);
-document.getElementById("backBtn").onclick=()=>{stopRec();if(W.i>0){W.i--;skip(-1);renderStep(true,"back");}else closeWizard();};
+document.getElementById("backBtn").onclick=()=>{stopRec();
+  if(W.direct){const st=W.steps[W.i];if(st==="confirm"){W.i=W.steps.indexOf("med");W.jumpBack=true;renderStep(true,"back");return;}if(st==="med"){closeWizard();return;}}
+  if(W.i>0){W.i--;skip(-1);renderStep(true,"back");}else closeWizard();};
 function toConfirm(){W.jumpBack=false;if(W.rec.level>0&&!W.rec.sym.length&&W.steps[W.i]==="level"){W.i=W.steps.indexOf("sym");W.jumpBack=true;renderStep(true,"fwd");return;}W.i=W.steps.indexOf("confirm");renderStep(true,"fwd");}
 document.getElementById("nextBtn").onclick=()=>{stopRec();buzz();if(W.steps[W.i]==="confirm"){commit();return;}if(W.jumpBack){toConfirm();return;}W.i++;skip(1);renderStep(true,"fwd");};
 function skip(dir){while(W.steps[W.i]==="sym"&&W.rec.level===0)W.i+=dir;}
@@ -1183,7 +1225,7 @@ function renderStep(announce,dir){
   const s=W.steps[W.i],body=document.getElementById("sheetBody");
   const vs=visSteps(),idx=vs.indexOf(s);
   document.getElementById("steps").innerHTML=vs.map((_,i)=>'<i class="'+(i<=idx?"on":"")+'"></i>').join("");
-  document.getElementById("backBtn").textContent=W.i===0?"取消":"上一步";
+  document.getElementById("backBtn").textContent=(W.i===0||(W.direct&&s==="med"))?"取消":"上一步";
   document.getElementById("nextBtn").textContent=s==="confirm"?"儲存記錄":W.jumpBack?"回到確認":"下一步";
   const ask=W.slot?SLOT[W.slot].ask:"今天";
   let html="",q="";
@@ -1200,8 +1242,9 @@ function renderStep(announce,dir){
     html=qh("通用選項 · 藥效回報",q)+W.pend.map((p,i)=>'<div class="medcard"><div class="mh"><b class="zh" style="font-weight:400;font-size:1.15rem">'+esc(p.name||"止痛藥")+'</b><span class="muted num" style="font-size:.8rem">'+(p.date===W.date?"":"昨天 ")+SLOT[p.slot].name+(p.time?" "+esc(p.time):"")+'</span></div><div class="effs" data-pi="'+i+'">'+EFFECTS.map(e=>'<button class="opt" data-v="'+e.v+'" aria-pressed="'+(W.pendVals[i]===e.v)+'"><span class="serif">'+e.v+'</span>'+e.t+'</button>').join("")+'</div></div>').join("");
   }
   if(s==="med"){
-    q="這段時間，有吃止痛藥嗎？";
-    html=qh("通用選項 · 急性用藥",q)+'<div class="opts seg" id="tookOpts"><button class="opt" data-v="0" aria-pressed="'+(W.tookMed===false)+'">沒有</button><button class="opt" data-v="1" aria-pressed="'+(W.tookMed===true)+'">有吃</button></div>';
+    if(W.direct){const k=(W.medIdx||0)+1,isNew=!(W.rec.meds[W.medIdx]&&W.rec.meds[W.medIdx].name);q=(isNew?"新增第 "+k+" 次服藥":"編輯第 "+k+" 次用藥");html=qh("急性用藥 · "+SLOT[W.slot].name,q);}
+    else{q="這段時間，有吃止痛藥嗎？";
+    html=qh("通用選項 · 急性用藥",q)+'<div class="opts seg" id="tookOpts"><button class="opt" data-v="0" aria-pressed="'+(W.tookMed===false)+'">沒有</button><button class="opt" data-v="1" aria-pressed="'+(W.tookMed===true)+'">有吃</button></div>';}
     if(W.tookMed){
       const recent=lastMedNames();
       if(W.medIdx==null||W.medIdx>=W.rec.meds.length)W.medIdx=Math.max(0,W.rec.meds.length-1);
@@ -1429,7 +1472,7 @@ function monthBlock(y,m){
   rows.push({t:"sec",v:"頭痛程度（1=小痛　2=中痛　3=大痛）"});
   rows.push({t:"hdr",label:"日期",cells:days.map(String)});
   rows.push({t:"wk",label:"星期",cells:days.map(d=>WD[new Date(y,m-1,d).getDay()])});
-  SLOTS.forEach(s=>rows.push({t:"lv",label:s.name,cells:days.map(d=>{const dd=get(d);if(!dd)return "";const r=dd.slots[s.k];return r?r.level:(dd.skip&&dd.skip[s.k]?"–":"");})}));
+  SLOTS.forEach(s=>rows.push({t:"lv",label:s.name,cells:days.map(d=>{const dd=get(d);if(!dd)return "";const r=dd.slots[s.k];return r?(r.level>0?r.level:"–"):(dd.skip&&dd.skip[s.k]?"–":"");})}));
   rows.push({t:"sec",v:"頭痛時是否伴隨下列症狀（✓）"});
   SYMS.forEach(sy=>rows.push({t:"ck",label:sy.t,cells:days.map(d=>{const dd=get(d);return dd&&SLOTS.some(s=>dd.slots[s.k]&&(dd.slots[s.k].sym||[]).includes(sy.k))?"✓":"";})}));
   rows.push({t:"sec",v:"當日頭痛幾小時？"});
@@ -1662,6 +1705,7 @@ async function openReport(uid,id){
     renderMonth();
   }catch(e){rb.innerHTML='<div class="rbanner">'+icon+'<span>報表載入失敗，請稍後再試。</span></div>';}
 }
+document.getElementById("todayBtn").onclick=()=>{buzz();const n=new Date();state.curDate=ymd(n);state.month={y:n.getFullYear(),m:n.getMonth()+1};if(state.view==="month")renderMonth();else{state.lastDialKey="";renderDay();}updateTodayBtn();window.scrollTo({top:0,behavior:reduced()?"auto":"smooth"});toast(state.view==="month"?"已回到本月":"已回到今天");};
 function backupInfo(){const n=Object.keys(state.days).length;let last="";try{last=localStorage.getItem("hd-lastbackup")||""}catch(e){}const el=document.getElementById("bkInfo");if(el)el.textContent="目前共 "+n+" 天的記錄"+(last?"，上次備份："+last:"，還沒有備份過")+"。";}
 document.getElementById("bkDown").onclick=async()=>{
   const data={app:"headache-diary",version:1,exported:new Date().toISOString(),days:state.days,settings:state.settings};
